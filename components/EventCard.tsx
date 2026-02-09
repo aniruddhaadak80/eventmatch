@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, Clock, Users, Star, Ticket } from 'lucide-react';
-import { Event } from '@/lib/algolia';
+import { Event } from '@/lib/events-data';
 
 interface EventCardProps {
     event: Event;
@@ -16,6 +16,8 @@ const categoryColors: Record<string, string> = {
     Tech: 'tech',
     Food: 'food',
     Wellness: 'wellness',
+    Business: 'business',
+    Education: 'education',
 };
 
 export default function EventCard({ event, index }: EventCardProps) {
@@ -28,10 +30,9 @@ export default function EventCard({ event, index }: EventCardProps) {
         });
     };
 
-    const formatPrice = (price: { min: number; max: number; isFree: boolean }) => {
-        if (price.isFree) return 'Free';
-        if (price.min === price.max) return `₹${price.min.toLocaleString()}`;
-        return `₹${price.min.toLocaleString()} - ₹${price.max.toLocaleString()}`;
+    const formatPrice = (price: number) => {
+        if (price === 0) return 'Free';
+        return `₹${price.toLocaleString()}`;
     };
 
     return (
@@ -70,7 +71,7 @@ export default function EventCard({ event, index }: EventCardProps) {
 
                 {/* Category Badge */}
                 <div className="absolute bottom-4 left-4">
-                    <span className={`category-pill ${categoryColors[event.category]}`}>
+                    <span className={`category-pill ${categoryColors[event.category] || 'default'}`}>
                         {event.category}
                     </span>
                 </div>
@@ -105,28 +106,24 @@ export default function EventCard({ event, index }: EventCardProps) {
                 {/* Location */}
                 <div className="flex items-center gap-2 text-sm text-white/60">
                     <MapPin size={14} className="text-[#4facfe] flex-shrink-0" />
-                    <span className="truncate">{event.location.venue}, {event.location.city}</span>
+                    <span className="truncate">{event.location}, {event.city}</span>
                 </div>
 
                 {/* Footer */}
                 <div className="flex items-center justify-between pt-3 border-t border-white/[0.08]">
                     <div className="flex items-center gap-2 text-sm text-white/50">
                         <Users size={14} />
-                        <span>{event.capacity.toLocaleString()} capacity</span>
+                        <span>{event.maxAttendees.toLocaleString()} capacity</span>
                     </div>
 
-                    {event.ticketsAvailable ? (
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#667eea] to-[#764ba2] rounded-full text-sm font-medium text-white"
-                        >
-                            <Ticket size={14} />
-                            Get Tickets
-                        </motion.button>
-                    ) : (
-                        <span className="text-sm text-rose-400 font-medium">Sold Out</span>
-                    )}
+                    <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#667eea] to-[#764ba2] rounded-full text-sm font-medium text-white"
+                    >
+                        <Ticket size={14} />
+                        Get Tickets
+                    </motion.button>
                 </div>
             </div>
 
