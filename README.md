@@ -107,13 +107,19 @@ eventmatch/
 ## 📸 Screenshots
 
 ### Home Page
-![Event Discovery Homepage](#)
+![Imagecription](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ba65jwo4fj6ftg5amjcd.png)
 
 ### Chat Interface
-![AI Chat Interface](#)
+![Image ption](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s6ykqctx153awn1ay1t7.png)
+
+![Image deription](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zzsdookabwwxcosuus12.png)
 
 ### Event Details
-![Event Modal](#)
+![Imagscription](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/llh35hkj44as2ijg5o6s.png)
+
+![Imag ption](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/g3hem2tk58lbgm3has0d.png)
+
+
 
 ## 🤝 Contributing
 
