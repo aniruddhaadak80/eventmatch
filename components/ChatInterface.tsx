@@ -3,8 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Sparkles, Loader2, MapPin, Calendar, Ticket } from 'lucide-react';
-import { Event } from '@/lib/algolia';
-import { sampleEvents } from '@/lib/events-data';
+import { sampleEvents, Event } from '@/lib/events-data';
 
 interface Message {
     id: string;
@@ -67,20 +66,29 @@ export default function ChatInterface() {
             filteredEvents = sampleEvents.filter(e => e.category === 'Wellness');
             response = `🧘 Found ${filteredEvents.length} wellness events! Time for some self-care:`;
         }
-        // Location matching
+        // Location matching - using city field directly
         else if (lowerQuery.includes('mumbai')) {
-            filteredEvents = sampleEvents.filter(e => e.location.city === 'Mumbai');
+            filteredEvents = sampleEvents.filter(e => e.city === 'Mumbai');
             response = `📍 Found ${filteredEvents.length} events in Mumbai! Here's what's happening in the city:`;
         } else if (lowerQuery.includes('bangalore') || lowerQuery.includes('bengaluru')) {
-            filteredEvents = sampleEvents.filter(e => e.location.city === 'Bangalore');
+            filteredEvents = sampleEvents.filter(e => e.city === 'Bangalore');
             response = `📍 Found ${filteredEvents.length} events in Bangalore! Check these out:`;
         } else if (lowerQuery.includes('delhi')) {
-            filteredEvents = sampleEvents.filter(e => e.location.city === 'Delhi');
+            filteredEvents = sampleEvents.filter(e => e.city === 'Delhi');
             response = `📍 Found ${filteredEvents.length} events in Delhi! The city has lots to offer:`;
+        } else if (lowerQuery.includes('chennai')) {
+            filteredEvents = sampleEvents.filter(e => e.city === 'Chennai');
+            response = `📍 Found ${filteredEvents.length} events in Chennai! Discover what's on:`;
+        } else if (lowerQuery.includes('pune')) {
+            filteredEvents = sampleEvents.filter(e => e.city === 'Pune');
+            response = `📍 Found ${filteredEvents.length} events in Pune! Check these out:`;
+        } else if (lowerQuery.includes('hyderabad')) {
+            filteredEvents = sampleEvents.filter(e => e.city === 'Hyderabad');
+            response = `📍 Found ${filteredEvents.length} events in Hyderabad! Here's what's happening:`;
         }
         // Price matching
         else if (lowerQuery.includes('free')) {
-            filteredEvents = sampleEvents.filter(e => e.price.isFree);
+            filteredEvents = sampleEvents.filter(e => e.price === 0);
             response = `🆓 Found ${filteredEvents.length} free events! No wallet needed:`;
         } else if (lowerQuery.includes('weekend') || lowerQuery.includes('today') || lowerQuery.includes('tomorrow')) {
             filteredEvents = sampleEvents.slice(0, 4);
@@ -130,10 +138,9 @@ export default function ChatInterface() {
         setInput(suggestion);
     };
 
-    const formatPrice = (price: { min: number; max: number; isFree: boolean }) => {
-        if (price.isFree) return 'Free';
-        if (price.min === price.max) return `₹${price.min.toLocaleString()}`;
-        return `₹${price.min.toLocaleString()}+`;
+    const formatPrice = (price: number) => {
+        if (price === 0) return 'Free';
+        return `₹${price.toLocaleString()}`;
     };
 
     return (
@@ -207,7 +214,7 @@ export default function ChatInterface() {
                                                                 <Calendar size={10} />
                                                                 <span>{new Date(event.date).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}</span>
                                                                 <MapPin size={10} />
-                                                                <span className="truncate">{event.location.city}</span>
+                                                                <span className="truncate">{event.city}</span>
                                                             </div>
                                                             <div className="flex items-center justify-between mt-2">
                                                                 <span className="text-xs font-medium text-[#4facfe]">{formatPrice(event.price)}</span>
