@@ -21,8 +21,8 @@ import {
   ExternalLink
 } from 'lucide-react';
 import ChatInterface from '@/components/ChatInterface';
-import { sampleEvents, categories, getFeaturedEvents, getFreeEvents, searchEvents } from '@/lib/events-data';
-import { Event } from '@/lib/algolia';
+import { sampleEvents, categories, getFeaturedEvents, getFreeEvents, searchEvents, Event } from '@/lib/events-data';
+
 
 // Floating particles component - client-side only to avoid hydration mismatch
 function FloatingParticles() {
@@ -492,8 +492,8 @@ export default function HomePage() {
             <button
               onClick={() => setShowBookmarksOnly(!showBookmarksOnly)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${showBookmarksOnly
-                  ? 'bg-red-500/20 text-red-400 border border-red-500/40'
-                  : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10'
+                ? 'bg-red-500/20 text-red-400 border border-red-500/40'
+                : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10'
                 }`}
             >
               <Heart size={14} className={showBookmarksOnly ? 'fill-red-400' : ''} />
@@ -504,8 +504,8 @@ export default function HomePage() {
                 key={filter}
                 onClick={() => setPriceFilter(filter as typeof priceFilter)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${priceFilter === filter
-                    ? 'bg-[#667eea]/20 text-[#667eea] border border-[#667eea]/40'
-                    : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10'
+                  ? 'bg-[#667eea]/20 text-[#667eea] border border-[#667eea]/40'
+                  : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10'
                   }`}
               >
                 {filter.charAt(0).toUpperCase() + filter.slice(1)}
@@ -576,8 +576,8 @@ export default function HomePage() {
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setSelectedCategory(cat.id)}
                       className={`px-5 py-3 rounded-2xl text-sm font-medium transition-all flex items-center gap-2 ${selectedCategory === cat.id
-                          ? 'text-white shadow-lg'
-                          : 'bg-white/5 text-white/70 hover:bg-white/10 border border-white/10'
+                        ? 'text-white shadow-lg'
+                        : 'bg-white/5 text-white/70 hover:bg-white/10 border border-white/10'
                         }`}
                       style={{
                         background: selectedCategory === cat.id
