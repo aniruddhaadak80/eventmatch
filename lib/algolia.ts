@@ -1,4 +1,4 @@
-import algoliasearch from 'algoliasearch';
+import { algoliasearch } from 'algoliasearch';
 
 // Initialize Algolia client
 const appId = process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || 'GITMVWW0QR';
@@ -15,27 +15,7 @@ export const adminClient = adminKey ? algoliasearch(appId, adminKey) : null;
 export const EVENTS_INDEX = 'events';
 
 // Get search index
-export const eventsIndex = searchClient.initIndex(EVENTS_INDEX);
-
-// Event type for Algolia
-export interface Event {
-    objectID: string;
-    title: string;
-    description: string;
-    category: string;
-    date: string;
-    time: string;
-    location: string;
-    city: string;
-    price: number;
-    image: string;
-    attendees: number;
-    maxAttendees: number;
-    featured: boolean;
-    tags: string[];
-    organizer: string;
-    rating: number;
-}
+export const eventsIndex = searchClient.searchSingleIndex({ indexName: EVENTS_INDEX });
 
 // Search function
 export async function searchEvents(query: string, filters?: {
@@ -69,9 +49,13 @@ export async function searchEvents(query: string, filters?: {
     }
 
     try {
-        const results = await eventsIndex.search<Event>(query, {
-            filters: filterString,
-            hitsPerPage: 20,
+        const results = await searchClient.searchSingleIndex({
+            indexName: EVENTS_INDEX,
+            searchParams: {
+                query,
+                filters: filterString,
+                hitsPerPage: 20,
+            }
         });
 
         return results.hits;
@@ -84,9 +68,13 @@ export async function searchEvents(query: string, filters?: {
 // Get featured events
 export async function getFeaturedEvents() {
     try {
-        const results = await eventsIndex.search<Event>('', {
-            filters: 'featured:true',
-            hitsPerPage: 5,
+        const results = await searchClient.searchSingleIndex({
+            indexName: EVENTS_INDEX,
+            searchParams: {
+                query: '',
+                filters: 'featured:true',
+                hitsPerPage: 5,
+            }
         });
 
         return results.hits;
